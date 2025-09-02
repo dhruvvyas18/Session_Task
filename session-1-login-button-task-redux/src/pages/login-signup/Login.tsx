@@ -1,10 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import type { User } from "../common/interface/User";
+import type { User } from "../../common/interface/User";
+import Input from "../../components/UI/input";
+import { InputTypeEnum } from "../../types/type/commonEnums";
+import AuthContext from "../../store/AuthContext";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const contextData = useContext(AuthContext);
   const [formData, setFormData] = useState<Partial<User>>({
     email: "",
     password: "",
@@ -68,7 +73,10 @@ export default function Login() {
     );
 
     if (existingUser) {
+      contextData.userLoggin(existingUser);
+
       alert("Welcome  " + existingUser.email);
+      navigate("/home");
     } else {
       alert("invalid Id Pass");
     }
@@ -108,44 +116,26 @@ export default function Login() {
 
         <div className="space-y-6">
           <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
+            <Input
+              labelText="Email Address"
+              id="email"
+              name="email"
+              type={InputTypeEnum.EMAIL}
+              required={true}
+              placeHolder="you@example.com"
+              value={formData.email!}
+              onChange={handleChange}
+            />
+            <Input
+              labelText="Password"
+              id="password"
+              name="password"
+              type={InputTypeEnum.PASSWORD}
+              required={true}
+              placeHolder="••••••••"
+              value={formData.password!}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="w-full h-30" ref={divElementRef}>
@@ -160,13 +150,13 @@ export default function Login() {
               onMouseMove={onMoveHandler}
               className="relative w-require flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300"
             >
-              Sign in
+              LogIn
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Don’t have an account?{" "}
+              Don't have an account?{" "}
               <Link
                 to="signup"
                 className="font-medium text-indigo-600 hover:text-indigo-500"

@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
-import type { User } from "../common/interface/User";
-import { Link } from "react-router-dom";
+import type { User } from "../../common/interface/User";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../components/UI/input";
+import { InputTypeEnum } from "../../types/type/commonEnums";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<User>({
     confirmPassword: "",
     email: "",
@@ -64,7 +67,12 @@ export default function Signup() {
       localStorage.getItem("users");
 
     if (!userDataFromLocalStorage) {
-      localStorage.setItem("users", JSON.stringify([formData]));
+      localStorage.setItem(
+        "users",
+        JSON.stringify([{ email: formData.email, password: formData.password }])
+      );
+      alert("Signin SuccessFully Please Login");
+      navigate("/");
     } else {
       const users: Partial<User>[] = JSON.parse(userDataFromLocalStorage);
       const existingUser = users.find(
@@ -77,6 +85,8 @@ export default function Signup() {
       }
       users.push({ email: formData.email, password: formData.password });
       localStorage.setItem("users", JSON.stringify(users));
+      alert("Signin SuccessFully Please Login");
+      navigate("/");
     }
   };
 
@@ -107,65 +117,37 @@ export default function Signup() {
 
         <div className="space-y-6">
           <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={onhandleChange}
-              />
-            </div>
+            <Input
+              labelText="Email Address"
+              id="email"
+              name="email"
+              type={InputTypeEnum.EMAIL}
+              required={true}
+              placeHolder="you@example.com"
+              value={formData.email!}
+              onChange={onhandleChange}
+            />
+            <Input
+              labelText="Password"
+              id="password"
+              name="password"
+              type={InputTypeEnum.PASSWORD}
+              required={true}
+              placeHolder="••••••••"
+              value={formData.password!}
+              onChange={onhandleChange}
+            />
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={onhandleChange}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={onhandleChange}
-              />
-            </div>
+            <Input
+              labelText="Confirm Password"
+              id="confirmPassword"
+              name="confirmPassword"
+              type={InputTypeEnum.PASSWORD}
+              required={true}
+              placeHolder="••••••••"
+              value={formData.confirmPassword!}
+              onChange={onhandleChange}
+            />
           </div>
 
           <div className="w-full h-30" ref={BtnParentRef}>
