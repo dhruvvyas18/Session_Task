@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
 import { User } from "../common/interface/User";
-import AuthContext from "../store/AuthContext";
 
 export default function HomePage() {
   const loggedInUserInfo: string | null = localStorage.getItem("user");
@@ -10,9 +8,6 @@ export default function HomePage() {
   } else {
     JsonloggedInUserInfo = null;
   }
-
-  const isLoggin = useContext(AuthContext);
-  console.log(isLoggin);
 
   return (
     <main className="flex-grow flex items-center justify-center p-10">

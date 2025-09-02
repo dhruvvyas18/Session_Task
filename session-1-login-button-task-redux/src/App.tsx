@@ -5,12 +5,17 @@ import { RouterProvider } from "react-router";
 import HomePage from "./pages/HomePage";
 import Layout from "./pages/Layout/Layout";
 import NotFound from "./pages/Error/NotFound";
-import { useContext } from "react";
-import AuthContext from "./store/AuthContext";
 import Unauthorized from "./pages/Error/Unauthorized";
+import { useSelector } from "react-redux";
+import { AuthContextType } from "./types/type/commonTypes";
 
 function App() {
-  const isLoggined = useContext(AuthContext).isLoggin;
+  const isLoggined = useSelector(
+    (state: { AuthData: Partial<AuthContextType> }) => {
+      return state.AuthData.isLoggin;
+    }
+  );
+
   const router = createBrowserRouter([
     { path: "/", element: <Login /> },
     { path: "/signup", element: <Signup /> },

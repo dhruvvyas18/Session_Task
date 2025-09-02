@@ -1,15 +1,16 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
 import type { User } from "../../common/interface/User";
 import Input from "../../components/UI/input";
 import { InputTypeEnum } from "../../types/type/commonEnums";
-import AuthContext from "../../store/AuthContext";
+import { useDispatch } from "react-redux";
+import { AuthActions } from "../../store/AuthSlice";
 
 export default function Login() {
   const navigate = useNavigate();
-  const contextData = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState<Partial<User>>({
     email: "",
     password: "",
@@ -73,7 +74,7 @@ export default function Login() {
     );
 
     if (existingUser) {
-      contextData.userLoggin(existingUser);
+      dispatch(AuthActions.userLogin(existingUser));
 
       alert("Welcome  " + existingUser.email);
       navigate("/home");
