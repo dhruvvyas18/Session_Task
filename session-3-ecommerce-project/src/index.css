@@ -1,7 +1,9 @@
 @import "tailwindcss" ;
 @import "tailwindcss" prefix(tw);
 
-
+*{
+    font-family: 'sora', sans-serif;
+}
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }

@@ -1,0 +1,2 @@
+[&_p]:text-blue-500        =>        it will give all child parargraph color blue
+tw:tracking-[5px]          =>        add space between letter

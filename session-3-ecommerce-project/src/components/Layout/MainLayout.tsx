@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 function MainLayout() {
   return (
     <>
-      <div className="tw:bg-gray-100">
+      <div className="tw:bg-[rgb(249,249,249)]">
         <Header />
         <Outlet />
       </div>
