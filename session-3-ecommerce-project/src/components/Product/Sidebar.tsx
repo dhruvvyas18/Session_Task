@@ -1,6 +1,4 @@
-import React from "react";
-
-function Sidebar() {
+const Sidebar = (props: { imgUrl: string }) => {
   return (
     <div>
       {" "}
@@ -9,44 +7,26 @@ function Sidebar() {
             tw:max-h-100 tw:overflow-scroll tw:p-3 tw:flex tw:flex-col tw:gap-4 no-scrollbar"
       >
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
         <div>
-          <img
-            className=""
-            src="https://www.headphonezone.in/cdn/shop/products/Headphone-Zone-KZ-EDX-Pro-12.jpg?v=1739774792&width=112"
-          />
+          <img className="" src={props.imgUrl} />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

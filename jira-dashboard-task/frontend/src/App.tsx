@@ -8,6 +8,7 @@ import { useState } from "react";
 import { addTask } from "./api/TaskApi";
 import { useTaskStore } from "./store/TaskStore";
 import { toast, ToastContainer } from "react-toastify";
+import { getAddTaskSchema } from "./schemas/commonSchema";
 
 function App() {
   const { isOpen, setClose } = useModalStore();
@@ -80,8 +81,19 @@ function App() {
             </div>
 
             <div>
-              <Formik initialValues={initialValues} onSubmit={submitHandler}>
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
+              <Formik
+                initialValues={initialValues}
+                onSubmit={submitHandler}
+                validationSchema={getAddTaskSchema()}
+              >
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                  touched,
+                }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="tw:mb-4">
                       <label className="tw:text-xl tw:m-5 tw:me-[12%]">
@@ -96,6 +108,11 @@ function App() {
                         value={values.title}
                         placeholder="Enter Title"
                       />
+                      {errors.title && touched && (
+                        <div className="tw:text-red-600 tw:flex tw:ms-42 tw:mt-2">
+                          {errors.title}
+                        </div>
+                      )}
                     </div>
 
                     <div className="tw:mb-4 tw:flex">
@@ -112,6 +129,11 @@ function App() {
                         placeholder="Write Description here..."
                       ></textarea>
                     </div>
+                    {errors.description && touched && (
+                      <div className="tw:text-red-600 tw:flex tw:ms-42 tw:mt-2">
+                        {errors.description}
+                      </div>
+                    )}
 
                     <div className=" tw:flex tw:gap-6">
                       <div className="tw:mb-4 tw:flex tw:w-[50%] tw:items-center">

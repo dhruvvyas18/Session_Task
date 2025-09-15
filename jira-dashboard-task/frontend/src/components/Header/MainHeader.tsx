@@ -29,7 +29,6 @@ function MainHeader() {
   const [searchItem, setSearchItem] = useState("");
 
   const handleClear = () => {
-    // resetFilter();
     setSearchItem("");
     setUser("");
     setStatus("");
@@ -40,7 +39,7 @@ function MainHeader() {
     const timeOutId = setTimeout(() => {
       searchTask(searchItem);
       setFalseLoading();
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timeOutId);
   }, [searchItem]);
   useEffect(() => {

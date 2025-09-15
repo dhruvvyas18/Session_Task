@@ -38,7 +38,7 @@ export async function getSearchTask(content: string) {
   if (!response.ok) {
     return {
       isSuccess: false,
-      data: { response: "something went wrong Whil fetch Data" },
+      data: { response: "something went wrong While fetch Data" },
     };
   }
   const responseJson = await response.json();
@@ -56,7 +56,7 @@ export async function updateStatus(id: string, status: statusEnum) {
   if (!response.ok) {
     return {
       isSuccess: false,
-      data: { response: "something went wrong Whil Update Data" },
+      data: { response: "something went wrong While Update Data" },
     };
   }
   return {

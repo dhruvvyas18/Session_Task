@@ -1,6 +1,7 @@
 import type React from "react";
 import type { CardItemProps } from "../../common/types/commonTypes";
 import { useNavigate } from "react-router";
+import Price from "./Price";
 
 const CardItem: React.FC<CardItemProps> = ({ product }) => {
   const navigate = useNavigate();
@@ -36,10 +37,15 @@ const CardItem: React.FC<CardItemProps> = ({ product }) => {
         <div className="tw:flex tw:gap-3">
           <span className="tw:text-blue-500 tw:font-semibold">
             {" "}
-            ₹ {product.discountPrice ? product.discountPrice : product.price}
+            ₹{" "}
+            <Price
+              amount={
+                product.discountPrice ? product.discountPrice : product.price
+              }
+            />
           </span>
           <span className="tw:font-extralight tw:text-gray-500  tw:line-through ">
-            ₹ {product.price}
+            ₹ <Price amount={product.price} />
           </span>
         </div>
         <div>

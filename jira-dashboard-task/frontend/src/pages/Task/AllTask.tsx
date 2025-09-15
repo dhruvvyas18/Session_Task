@@ -7,7 +7,6 @@ import { useTaskStore } from "../../store/TaskStore";
 
 function AllTask() {
   const [tasks, setTasks] = useState<JiraTicket[]>();
-  // const [loading, setLoading] = useState(false);
   const {
     tasks: AllTask,
     fetchTask,
@@ -18,7 +17,6 @@ function AllTask() {
 
   useEffect(() => {
     fetchTask();
-    // setFalseLoading();
   }, [fetchTask]);
 
   useEffect(() => {

@@ -10,7 +10,7 @@ const Modal = (props: ModalProp) => {
   return createPortal(
     <div
       onClick={props.onClose}
-      className="tw:absolute tw:top-0   tw:w-[100vw] tw:z-50 tw:items-center tw:bg-red-50  tw:pe-2 tw:flex tw:justify-end tw:h-[96vh] tw:opacity-50"
+      className="tw:fixed tw:top-0 tw:overflow-hidden  tw:w-[100%] tw:z-50 tw:items-center tw:bg-black/50  tw:pe-2 tw:flex tw:justify-end tw:h-[100%] "
     >
       {props.children}
     </div>,

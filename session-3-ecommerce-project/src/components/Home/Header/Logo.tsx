@@ -1,5 +1,3 @@
-import React from "react";
-
 function Logo() {
   return (
     <div className="tw:flex  tw:items-center tw:cursor-pointer">
