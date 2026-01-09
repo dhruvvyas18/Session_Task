@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/cart-slice";
 import Price from "../UI/Price";
 import type { checkOutProps } from "../../common/interfaces/commonInterface";
+import { toast } from "react-toastify";
 
 const CheckoutCard = (props: checkOutProps) => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const CheckoutCard = (props: checkOutProps) => {
 
   const onRemoveAllItemToCartHandler = () => {
     dispatch(cartActions.removeTotalQunatityFromCart(props.product.id));
+    toast.success("All item removed from cart", { position: "top-center" });
   };
   return (
     <div className=" tw:flex tw:p-3 tw:m-4 tw:shadow-xl tw:w-[95%]">

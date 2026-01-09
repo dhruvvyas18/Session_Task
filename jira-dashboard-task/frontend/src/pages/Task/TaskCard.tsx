@@ -24,7 +24,7 @@ const TaskCard = (props: { data: JiraTicket }) => {
       {props.data && (
         <div className="tw:bg-gray-200  tw:flex tw:flex-col tw:gap-2 tw:shadow-sm tw:shadow-amber-100 tw:rounded-xl tw:p-4 tw:m-4 ">
           <div className="tw:font-bold tw:text-[13px] tw:bg-red-300 tw:p-1 tw:rounded-md tw:self-end">
-            {/* #Forntend */}#{props.data.category}
+            {/* #Forntend */}#{props.data.category || "General"}
           </div>
           <div className="tw:flex tw:items-start tw:gap-3">
             <div
@@ -41,7 +41,7 @@ const TaskCard = (props: { data: JiraTicket }) => {
 
           <div className="tw:text-md">{props.data.description}</div>
           <div className="tw:font-light">
-            Date : {props.data.createdAt.split("T")[0]}
+            Date : {props.data.createdAt ? props.data.createdAt.split("T")[0] : "N/A"}
           </div>
           <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-2">
             Assign to :{" "}

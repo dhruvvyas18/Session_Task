@@ -1,92 +1,155 @@
 import express, { Request, Response } from "express";
-import { readFile, readFileSync, writeFileSync } from "fs";
-import path from "path";
-import { Tasks } from "../common/commonInterface";
-import { log } from "console";
+import mongoose from "mongoose";
+import { Task } from "../models/task";
 
 const router = express.Router();
-const filepath = path.join(__dirname, "../..", "src", "data", "response.json");
-router.get("/", async (req, res) => {
+
+/**
+ * GET /
+ */
+router.get("/", async (_req: Request, res: Response) => {
   try {
-    const fileContent = await readFileSync(filepath, "utf-8");
-    res.json(JSON.parse(fileContent));
-  } catch (err) {
+    const tasks = await Task.find().lean();
+
+    const formatted = tasks.map((t: any) => ({
+      id: t._id,
+      title: t.title,
+      description: t.description,
+      assignee: t.assignee,
+      status: t.status,
+      category: t.category || "Backend", // Default category if not set
+      createdAt: t.createdAt || new Date().toISOString(),
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "internal server error" });
   }
 });
 
-router.get("/search/user", async (req, res) => {
-  const { user, status } = req.query;
-
-  let data: Tasks[];
+/**
+ * GET /search/user
+ */
+router.get("/search/user", async (req: Request, res: Response) => {
   try {
-    const fileContent = await readFileSync(filepath, "utf-8");
+    const { user, status } = req.query;
 
-    const tasks: Tasks[] = JSON.parse(fileContent);
+    const filter: any = {};
+    if (user) filter.assignee = user;
+    if (status) filter.status = status;
 
-    if (!status && !user) {
-      data = tasks;
-    } else if (status && user) {
-      data = tasks.filter(
-        (task) => task.status === status && task.assignee === user
-      );
-    } else if (status) {
-      data = tasks.filter((task) => task.status === status);
-    } else {
-      data = tasks.filter((task) => task.assignee === user);
+    const tasks = await Task.find(filter).lean();
+
+    const formatted = tasks.map((t: any) => ({
+      id: t._id,
+      title: t.title,
+      description: t.description,
+      assignee: t.assignee,
+      status: t.status,
+      category: t.category || "Backend", // Default category if not set
+      createdAt: t.createdAt || new Date().toISOString(),
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "internal server error" });
+  }
+});
+
+/**
+ * GET /search/:content
+ * Search by title or description using regex
+ */
+router.get("/search/:content", async (req: Request, res: Response) => {
+  try {
+    const { content } = req.params;
+
+    if (!content) {
+      return res.status(400).json({ message: "Search content is required" });
     }
 
-    res.json(data);
-  } catch (err) {
+    // Use regex with proper typing
+    const regex = new RegExp(content, "i");
+    
+    const tasks = await Task.find({
+      $or: [
+        { title: regex },
+        { description: regex },
+      ],
+    } as any).lean();
+
+    const formatted = tasks.map((t: any) => ({
+      id: t._id,
+      title: t.title,
+      description: t.description,
+      assignee: t.assignee,
+      status: t.status,
+      category: t.category || "Backend", // Default category if not set
+      createdAt: t.createdAt || new Date().toISOString(),
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "internal server error" });
   }
 });
 
-router.get("/search/:content", async (req, res) => {
-  const { content } = req.params;
+/**
+ * PUT /update/:id
+ */
+router.put("/update/:id", async (req: Request, res: Response) => {
   try {
-    const fileContent = await readFileSync(filepath, "utf-8");
+    const { status } = req.body;
+    const { id } = req.params;
 
-    const tasks: Tasks[] = JSON.parse(fileContent);
-    const data: Tasks[] = tasks.filter(
-      (task) =>
-        task.title.toLowerCase().includes(content.toLowerCase()) ||
-        task.description.toLowerCase().includes(content.toLowerCase())
-    );
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
 
-    res.json(data);
-  } catch (err) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid task ID" });
+    }
+
+    const task = await Task.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.json({ message: "Successfully Updated" });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "internal server error" });
   }
 });
 
-router.put("/update/:id", async (req, res) => {
-  const { status } = req.body;
-  console.log(req.body);
+/**
+ * POST /addTask
+ */
+router.post("/addTask", async (req: Request, res: Response) => {
+  try {
+    const { task } = req.body;
 
-  const { id } = req.params;
-  const fileContent = await readFileSync(filepath, "utf-8");
-  if (!status) res.json({ message: "Some thing Went Wrong" });
-  let tasks: Tasks[] = JSON.parse(fileContent);
-  let findedTask = tasks.find((task) => task.id === id);
-  if (!findedTask) res.json({ message: "Data not found" });
-  findedTask!.status = status;
-  console.log(findedTask);
+    if (!task || !task.title || !task.description || !task.assignee) {
+      return res.status(400).json({ message: "Title, description, and assignee are required" });
+    }
 
-  writeFileSync(filepath, JSON.stringify(tasks));
-  res.json({ message: "SuccessFull Updated" });
-});
+    await Task.create({
+      title: task.title,
+      description: task.description,
+      assignee: task.assignee,
+      status: task.status ?? "pending",
+      category: task.category ?? "Backend",
+    });
 
-router.post("/addTask", async (req, res) => {
-  const { task } = req.body;
-  console.log(task);
-
-  const fileContent = await readFileSync(filepath, "utf-8");
-  if (!task) res.json({ message: "Some thing Went Wrong" });
-  let tasks: Tasks[] = JSON.parse(fileContent);
-  tasks.push(task);
-  writeFileSync(filepath, JSON.stringify(tasks));
-  res.json({ message: "Data Added SuccessFully" });
+    res.status(201).json({ message: "Task Added Successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "internal server error" });
+  }
 });
 
 export default router;

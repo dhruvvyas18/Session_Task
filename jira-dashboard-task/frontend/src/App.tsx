@@ -150,10 +150,9 @@ function App() {
                             <option selected value={"Dhruv"}>
                               Dhruv
                             </option>
-                            <option value={"Pratik"}>Pratik</option>
-                            <option value={"Nihar"}>Nihar</option>
-                            <option value={"Bhavesh"}>Bhavesh</option>
-                            <option value={"Parth"}>Parth</option>
+                            <option value={"Maulik"}>Maulik</option>
+                            <option value={"Nandkishor"}>Nandkishor</option>
+                            <option value={"Hemanshi"}>Hemanshi</option>
                           </select>
                         </div>
                       </div>

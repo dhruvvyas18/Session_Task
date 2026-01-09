@@ -1,12 +1,20 @@
 import express from "express";
-import taskRouter from "./routes/Task";
 import cors from "cors";
-import bodyParser from "body-parser";
+import taskRoutes from "./routes/Task";
+
 const app = express();
-const port = 3000;
+
+// Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(taskRouter);
-app.listen(port, () => {
-  console.log(`Connected successfully on port ${port}`);
+app.use(express.json());
+
+// Routes
+app.use("/", taskRoutes);
+
+// Global error handler
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err);
+  res.status(500).json({ message: "Internal Server Error" });
 });
+
+export default app;

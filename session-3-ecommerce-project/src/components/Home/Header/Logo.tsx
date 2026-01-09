@@ -1,6 +1,12 @@
+import { useNavigate } from "react-router";
+
 function Logo() {
+  const navigate = useNavigate();
   return (
-    <div className="tw:flex  tw:items-center tw:cursor-pointer">
+    <div
+      onClick={() => navigate("/")}
+      className="tw:flex  tw:items-center tw:cursor-pointer"
+    >
       <svg
         className="header__logo-image hz-mobile-logo"
         width="150px"

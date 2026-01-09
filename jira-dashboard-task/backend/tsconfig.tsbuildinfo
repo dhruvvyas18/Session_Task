@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/server.ts","./src/test-connection.ts","./src/common/commonenums.ts","./src/common/commoninterface.ts","./src/config/db.ts","./src/models/task.ts","./src/routes/task.ts"],"version":"5.9.2"}

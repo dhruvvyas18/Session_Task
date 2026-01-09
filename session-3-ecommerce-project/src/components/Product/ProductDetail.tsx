@@ -5,6 +5,7 @@ import { products } from "../../assets/DummyData";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/cart-slice";
 import Price from "../UI/Price";
+import { toast } from "react-toastify";
 
 function ProductDetail() {
   const productId = useParams().id;
@@ -20,6 +21,7 @@ function ProductDetail() {
         name: product?.name,
       })
     );
+    toast.success("Product added to cart", { position: "top-center" });
   };
   return (
     <div className="tw:h-full tw:w-[96%]   tw:m-11 tw:mt-0 tw:rounded-2xl">

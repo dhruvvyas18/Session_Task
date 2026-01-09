@@ -1,0 +1,31 @@
+service: lambda
+
+useDotenv: true
+
+plugins:
+  - serverless-offline # used for local execution
+  - serverless-offline-watcher
+
+provider:
+  profile: "dhruv"
+  name: aws
+  runtime: nodejs20.x
+  timeout: 300
+
+package:
+  individually: false
+  exclude:
+    - node_modules/**
+
+functions:
+  func:
+    handler: "dist/app.handler"
+    memorySize: 128
+    description: function for digichatly services
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: "{proxy+}"
+          method: ANY

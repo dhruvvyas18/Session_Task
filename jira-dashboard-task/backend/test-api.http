@@ -1,0 +1,36 @@
+# Test API endpoints
+# You can use this file with REST Client extension in VS Code
+
+### Get all tasks
+GET http://localhost:3000/tasks
+
+### Create a new task
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+  "title": "Sample Task",
+  "description": "This is a sample task created via API",
+  "assignee": "John Doe",
+  "status": "pending"
+}
+
+### Search tasks by assignee
+GET http://localhost:3000/tasks/search?assignee=John Doe
+
+### Search tasks by status
+GET http://localhost:3000/tasks/search?status=pending
+
+### Search tasks by text
+GET http://localhost:3000/tasks/search/sample
+
+### Update task status (replace {id} with actual task ID)
+PUT http://localhost:3000/tasks/{id}
+Content-Type: application/json
+
+{
+  "status": "completed"
+}
+
+### Delete task (replace {id} with actual task ID)
+DELETE http://localhost:3000/tasks/{id}
