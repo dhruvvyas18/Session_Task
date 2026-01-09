@@ -83,10 +83,9 @@ function MainHeader() {
               All
             </option>
             <option defaultValue={"Dhurv"}>Dhruv</option>
-            <option defaultValue={"Pratik"}>Pratik</option>
-            <option defaultValue={"Nihar"}>Nihar</option>
-            <option defaultValue={"Bhavesh"}>Bhavesh</option>
-            <option defaultValue={"Parth"}>Parth</option>
+            <option value={"Maulik"}>Maulik</option>
+                            <option value={"Nandkishor"}>Nandkishor</option>
+                            <option value={"Hemanshi"}>Hemanshi</option>
           </select>
           <select onChange={handleStatusChange} value={status}>
             <option selected value="">
